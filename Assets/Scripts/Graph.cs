@@ -18,7 +18,7 @@ public class Graph : MonoBehaviour
     float Y(float x) {
         float time = Time.time;
         var function = GetFunction(functionName);
-        return function(time + x);
+        return function(x, time);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

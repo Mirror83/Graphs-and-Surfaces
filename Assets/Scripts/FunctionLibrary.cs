@@ -1,7 +1,7 @@
 using static UnityEngine.Mathf;
 
 public static class FunctionLibrary {
-    public delegate float Function(float x);
+    public delegate float Function(float x, float t);
     
     public enum FunctionName { Wave }
 
@@ -13,7 +13,7 @@ public static class FunctionLibrary {
         return functions[(int)name];
     }
 
-    public static float Wave(float x) {
-        return Sin(PI * x);
+    public static float Wave(float x, float t) {
+        return Sin(PI * (x + t));
     }
 }
