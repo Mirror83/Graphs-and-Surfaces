@@ -17,12 +17,8 @@ public class Graph : MonoBehaviour
     Transform[] points;
 
     float Y(float x) {
-        return functionName switch
-        {
-           FunctionName.Parabola => Parabola(x),
-           FunctionName.Wave => Wave(x),
-            _ => x,
-        };
+        var function = GetFunction(functionName);
+        return function(x);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

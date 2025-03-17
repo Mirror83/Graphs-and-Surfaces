@@ -5,6 +5,15 @@ public static class FunctionLibrary {
     
     public enum FunctionName { Parabola, Wave }
 
+    static Function[] functions = {
+        Parabola,
+        Wave
+    };
+
+    public static Function GetFunction(FunctionName name) {
+        return functions[(int)name];
+    }
+
     public static float Parabola(float x) {
         return x * x;
     }
