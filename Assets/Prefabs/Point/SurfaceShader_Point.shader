@@ -15,6 +15,8 @@ Shader "Graph/SurfaceShader_Point"
         float _Smoothness;
 
         void ConfigureSurface(Input input, inout SurfaceOutputStandard surface){
+            // The multiplication is to move the coordinates from -1,1 to 0,0
+            surface.Albedo.rg = input.worldPos.xy * 0.5 + 0.5;
             surface.Smoothness = _Smoothness;
         }
         ENDCG
