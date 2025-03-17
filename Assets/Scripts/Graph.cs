@@ -11,13 +11,14 @@ public class Graph : MonoBehaviour
     int resolution = 10;
 
     [SerializeField]
-   FunctionName functionName;
+    FunctionName functionName = FunctionName.Wave;
 
     Transform[] points;
 
     float Y(float x) {
+        float time = Time.time;
         var function = GetFunction(functionName);
-        return function(x);
+        return function(time + x);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
