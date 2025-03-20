@@ -1,4 +1,5 @@
 using System;
+using Unity.Collections;
 using UnityEngine;
 using static FunctionLibrary;
 
@@ -15,10 +16,10 @@ public class Graph : MonoBehaviour
 
     Transform[] points;
 
-    float Y(float x) {
+    float Y(float x, float z) {
         float time = Time.time;
         var function = GetFunction(functionName);
-        return function(x, time);
+        return function(x, z, time);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,12 +29,17 @@ public class Graph : MonoBehaviour
         var step = 2f / resolution;
         var scale = Vector3.one * step;
 
-        points = new Transform[resolution];
+        points = new Transform[resolution * resolution];
 
-        for (int i = 0; i < points.Length; i++) {
+        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
+            if (x == resolution) {
+                x = 0;
+                z += 1;
+            }
             Transform point = Instantiate(pointPrefab);
             point.localScale = scale;
-            position.x = step * (i + 0.5f) - 1f;
+            position.x = step * (x + 0.5f) - 1f;
+            position.z = step * (z + 0.5f) - 1f;
             point.localPosition = position;
             // It is not necessary to keep the point at its original world
             // position, rotation and scale
@@ -48,7 +54,7 @@ public class Graph : MonoBehaviour
         foreach (Transform point in points)
         {
             position = point.localPosition;
-            position.y = Y(position.x);
+            position.y = Y(position.x, position.z);
             point.localPosition = position;
         }
     }
