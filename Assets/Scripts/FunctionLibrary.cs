@@ -4,12 +4,13 @@ using static UnityEngine.Mathf;
 public static class FunctionLibrary {
     public delegate Vector3 Function(float u, float v, float t);
     
-    public enum FunctionName { Wave, MutliWave, Ripple }
+    public enum FunctionName { Wave, MutliWave, Ripple, Sphere }
 
     static readonly Function[] functions = {
         Wave,
         MutliWave,
-        Ripple
+        Ripple,
+        Sphere
     };
 
     public static Function GetFunction(FunctionName name) {
@@ -50,4 +51,16 @@ public static class FunctionLibrary {
 
         return position;
     }
+
+    public static Vector3 Sphere(float u, float v, float t) {
+        Vector3 p;
+        float r = 0.9f + 0.1f * Sin(PI * (6f * u + 4f * v + t));
+        float s = r * Cos(0.5f * PI * v);
+        p.x = s * Sin(PI * u);
+        p.y = r * Sin(PI * 0.5f * v);
+        p.z = s * Cos(PI * u);
+
+        return p;
+    }
+    
 }
