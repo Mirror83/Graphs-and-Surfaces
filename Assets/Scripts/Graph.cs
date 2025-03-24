@@ -1,5 +1,4 @@
 using System;
-using Unity.Collections;
 using UnityEngine;
 using static FunctionLibrary;
 
@@ -16,33 +15,22 @@ public class Graph : MonoBehaviour
 
     Transform[] points;
 
-    float Y(float x, float z) {
-        float time = Time.time;
+    Vector3 F(float u, float v, float time) {
         var function = GetFunction(functionName);
-        return function(x, z, time);
+        return function(u, v, time);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        var position = Vector3.zero;
         var step = 2f / resolution;
         var scale = Vector3.one * step;
 
         points = new Transform[resolution * resolution];
 
-        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
-            if (x == resolution) {
-                x = 0;
-                z += 1;
-            }
+        for (int i = 0; i < points.Length; i++) {
             Transform point = Instantiate(pointPrefab);
             point.localScale = scale;
-            position.x = step * (x + 0.5f) - 1f;
-            position.z = step * (z + 0.5f) - 1f;
-            point.localPosition = position;
-            // It is not necessary to keep the point at its original world
-            // position, rotation and scale
             point.SetParent(transform, false);
             points[i] = point;
         }
@@ -50,12 +38,21 @@ public class Graph : MonoBehaviour
 
     void Update()
     {
-        Vector3 position;
-        foreach (Transform point in points)
-        {
-            position = point.localPosition;
-            position.y = Y(position.x, position.z);
-            point.localPosition = position;
+        float time = Time.time;
+        float step = 2f / resolution;
+
+        float v = 0.5f * step - 1f;
+
+        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
+            if (x == resolution){
+                x = 0;
+                z += 1;
+                v = (z + 0.5f) * step - 1f;
+            }
+
+            float u = (x + 0.5f) * step - 1f;
+            
+            points[i].localPosition = F(u, v, time);
         }
     }
 }
