@@ -13,6 +13,11 @@ public class Graph : MonoBehaviour
     [SerializeField]
     FunctionName functionName = FunctionName.Wave;
 
+    public enum TransitionMode { Cycle, Random }
+
+    [SerializeField]
+    TransitionMode transitionMode;
+
     /// <summary>
     /// The duration (in seconds) over which the current function is
     /// displayed before being changed to the next one
@@ -51,9 +56,16 @@ public class Graph : MonoBehaviour
         if (duration >= functionDuration)
         {
             duration -= functionDuration;
-            functionName = GetNextFunctionName(functionName);
+            PickNextFunction();
         }
         UpdateCurrentFunction();
+    }
+
+    void PickNextFunction()
+    {
+        functionName = transitionMode == TransitionMode.Cycle ?
+            GetNextFunctionName(functionName) :
+            GetRandomFunctionNameOtherThan(functionName);
     }
 
     void UpdateCurrentFunction()
