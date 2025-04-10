@@ -28,9 +28,7 @@ public static class FunctionLibrary {
 
     public static FunctionName GetNextFunctionName(FunctionName name)
     {
-        int nameAsInt = (int)name;
-        int nextNameAsInt = (nameAsInt + 1) % functions.Length;
-        return (FunctionName)nextNameAsInt;
+        return (FunctionName)(((int)name + 1) % functions.Length);
     }
 
     public static Vector3 Wave(float u, float v, float t) {
