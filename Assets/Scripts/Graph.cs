@@ -13,6 +13,15 @@ public class Graph : MonoBehaviour
     [SerializeField]
     FunctionName functionName = FunctionName.Wave;
 
+    /// <summary>
+    /// The duration (in seconds) over which the current function is
+    /// displayed before being changed to the next one
+    /// </summary>
+    [SerializeField, Min(0f)]
+    float functionDuration = 1f;
+
+    float duration = 0f;
+
     Transform[] points;
 
     Vector3 F(float u, float v, float time) {
@@ -38,20 +47,33 @@ public class Graph : MonoBehaviour
 
     void Update()
     {
+        duration += Time.deltaTime;
+        if (duration >= functionDuration)
+        {
+            duration -= functionDuration;
+            functionName = GetNextFunctionName(functionName);
+        }
+        UpdateCurrentFunction();
+    }
+
+    void UpdateCurrentFunction()
+    {
         float time = Time.time;
         float step = 2f / resolution;
 
         float v = 0.5f * step - 1f;
 
-        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++) {
-            if (x == resolution){
+        for (int i = 0, x = 0, z = 0; i < points.Length; i++, x++)
+        {
+            if (x == resolution)
+            {
                 x = 0;
                 z += 1;
                 v = (z + 0.5f) * step - 1f;
             }
 
             float u = (x + 0.5f) * step - 1f;
-            
+
             points[i].localPosition = F(u, v, time);
         }
     }
