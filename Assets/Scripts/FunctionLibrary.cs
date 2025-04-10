@@ -3,20 +3,34 @@ using static UnityEngine.Mathf;
 
 public static class FunctionLibrary {
     public delegate Vector3 Function(float u, float v, float t);
-    
-    public enum FunctionName { Wave, MutliWave, Ripple, Sphere, Torus, RotatingStarTorus }
+
+    public enum FunctionName { 
+        Wave,
+        MutliWave,
+        Ripple,
+        Sphere,
+        //Torus,
+        RotatingStarTorus 
+    }
 
     static readonly Function[] functions = {
         Wave,
         MutliWave,
         Ripple,
         Sphere,
-        Torus,
+        //Torus,
         RotatingStarTorus
     };
 
     public static Function GetFunction(FunctionName name) {
         return functions[(int)name];
+    }
+
+    public static FunctionName GetNextFunctionName(FunctionName name)
+    {
+        int nameAsInt = (int)name;
+        int nextNameAsInt = (nameAsInt + 1) % functions.Length;
+        return (FunctionName)nextNameAsInt;
     }
 
     public static Vector3 Wave(float u, float v, float t) {
@@ -65,18 +79,18 @@ public static class FunctionLibrary {
         return p;
     }
 
-    public static Vector3 Torus(float u, float v, float t) {
-        Vector3 p;
-        float r1 = 0.75f; // Major radius
-        float r2 = 0.25f; // Minor radius
+    //public static Vector3 Torus(float u, float v, float t) {
+    //    Vector3 p;
+    //    float r1 = 0.75f; // Major radius
+    //    float r2 = 0.25f; // Minor radius
 
-        float s = r1 + r2 * Cos(PI * v);
-        p.x = s * Sin(PI * u);
-        p.y = r2 * Sin(PI * v);
-        p.z = s * Cos(PI * u);
+    //    float s = r1 + r2 * Cos(PI * v);
+    //    p.x = s * Sin(PI * u);
+    //    p.y = r2 * Sin(PI * v);
+    //    p.z = s * Cos(PI * u);
 
-        return p;
-    }
+    //    return p;
+    //}
 
     public static Vector3 RotatingStarTorus(float u, float v, float t) {
         Vector3 p;
