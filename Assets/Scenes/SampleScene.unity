@@ -763,7 +763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6cb9765116397448b77e3530c24c58b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resolution: 200
+  resolution: 400
   functionName: 0
   transitionMode: 0
   computeShader: {fileID: 7200000, guid: 646093a1dbe3a46499e0194b12490f17, type: 3}
