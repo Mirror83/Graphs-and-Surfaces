@@ -4,8 +4,9 @@ using static FunctionLibrary;
 
 public class GPUGraph : MonoBehaviour
 {
+    const int maxResolution = 1000;
 
-    [SerializeField, Range(10, 1000)]
+    [SerializeField, Range(10, maxResolution)]
     int resolution = 10;
 
     [SerializeField]
@@ -61,13 +62,13 @@ public class GPUGraph : MonoBehaviour
             worldBounds = new Bounds(Vector3.zero, Vector3.one * (2f + step))
         };
 
-        Graphics.RenderMeshPrimitives(rparams, mesh, 0, positionsBuffer.count);
+        Graphics.RenderMeshPrimitives(rparams, mesh, 0, resolution * resolution);
     }
 
 
     void Start()
     {
-        positionsBuffer = new ComputeBuffer(resolution * resolution, 3 * 4);
+        positionsBuffer = new ComputeBuffer(maxResolution * maxResolution, 3 * 4);
     }
 
     void OnDisable()
