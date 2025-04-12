@@ -13,3 +13,14 @@ void ConfigureProcedural()
         unity_ObjectToWorld._m00_m11_m22 = _Step;
     #endif
 }
+
+void ShaderGraphFunction_float(float3 In, out float3 Out)
+{
+    Out = In;
+}
+
+void ShaderGraphFunction_half(half In, out half Out)
+{
+    Out = In;
+}
+
