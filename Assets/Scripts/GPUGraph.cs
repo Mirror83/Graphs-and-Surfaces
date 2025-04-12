@@ -44,15 +44,16 @@ public class GPUGraph : MonoBehaviour
 
     void UpdateFunctionOnGPU()
     {
-        //int kernelIndex = computeShader.FindKernel("FunctionKernel");
+        int kernelIndex = (int)functionName;
         float step = 2f / resolution;
+
         computeShader.SetInt(resolutionId, resolution);
         computeShader.SetFloat(timeId, Time.time);
         computeShader.SetFloat(stepId, step);
-        computeShader.SetBuffer(0, positionsId, positionsBuffer);
+        computeShader.SetBuffer(kernelIndex, positionsId, positionsBuffer);
 
         int groups = Mathf.CeilToInt(resolution / 8f);
-        computeShader.Dispatch(0, groups, groups, 1);
+        computeShader.Dispatch(kernelIndex, groups, groups, 1);
 
         material.SetBuffer(positionsId, positionsBuffer);
         material.SetFloat(stepId, step);

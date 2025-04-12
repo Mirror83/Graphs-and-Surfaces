@@ -1,4 +1,9 @@
-#pragma kernel FunctionKernel
+#pragma kernel WaveKernel
+#pragma kernel MutliWaveKernel
+#pragma kernel RippleKernel
+#pragma kernel SphereKernel
+#pragma kernel RotatingStarTorusKernel
+
 #define PI 3.14159265358979323846
 
 RWStructuredBuffer<float3> _Positions;
@@ -27,9 +32,72 @@ float3 Wave(float u, float v, float t)
     return position;
 }
 
-[numthreads(8, 8, 1)]
-void FunctionKernel(uint3 id: SV_DispatchThreadID)
+
+float3 MutliWave(float u, float v, float t)
 {
-    float2 uv = GetUV(id);
-    SetPosition(id, Wave(uv.x, uv.y, _Time));
+    float3 position;
+    position.x = u;
+    position.z = v;
+
+    float y = sin(PI * (u + 0.5 * t));
+    y += sin(2.0 * PI * (v + t)) * 0.5;
+    y += sin(PI * (u + v + 0.25 + t));
+    y *= 2.0 / 3.0;
+    position.y = y;
+
+    return position;
 }
+
+float3 Ripple(float u, float v, float t)
+{
+    float3 position;
+    position.x = u;
+    position.z = v;
+
+    float d = sqrt(u * u + v * v);
+    float y = sin(PI * (4.0 * d - t));
+    y /= 1.0 + 10.0 * d;
+    position.y = y;
+
+    return position;
+}
+
+float3 Sphere(float u, float v, float t)
+{
+    float3 p;
+    float r = 0.9 + 0.1 * sin(PI * (6.0 * u + 4.0 * v + t));
+    float s = r * cos(0.5 * PI * v);
+    p.x = s * sin(PI * u);
+    p.y = r * sin(PI * 0.5 * v);
+    p.z = s * cos(PI * u);
+
+    return p;
+}
+
+float3 RotatingStarTorus(float u, float v, float t)
+{
+    float3 p;
+    float r1 = 0.7 + 0.1 * sin(PI * (6.0 * u + 0.5 * t)); // Major radius
+    float r2 = 0.15 + 0.05 * sin(PI * (8.0 * u + 4.0 * v + 2.0 * t)); // Minor radius
+
+    float s = r1 + r2 * cos(PI * v);
+    p.x = s * sin(PI * u);
+    p.y = r2 * sin(PI * v);
+    p.z = s * cos(PI * u);
+
+    return p;
+}
+
+#define KERNEL_FUNCTION(Function) \
+    [numthreads(8, 8, 1)] \
+    void Function##Kernel(uint3 id: SV_DispatchThreadID) \
+    { \
+        float2 uv = GetUV(id); \
+        SetPosition(id, Function(uv.x, uv.y, _Time)); \
+    }
+
+KERNEL_FUNCTION(Wave)
+KERNEL_FUNCTION(MutliWave)
+KERNEL_FUNCTION(Ripple)
+KERNEL_FUNCTION(Sphere)
+KERNEL_FUNCTION(RotatingStarTorus)
