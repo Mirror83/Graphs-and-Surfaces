@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Material_Point
-  m_Shader: {fileID: 4800000, guid: 1c69d51fec840a1418ec936c4818511e, type: 3}
+  m_Name: Material_PointGPU
+  m_Shader: {fileID: 4800000, guid: c7cc5c55e9c0399479b0de4ab6343207, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
