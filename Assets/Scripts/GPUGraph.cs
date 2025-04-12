@@ -17,13 +17,13 @@ public class GPUGraph : MonoBehaviour
     [SerializeField]
     TransitionMode transitionMode;
 
-    //[SerializeField, Min(0f)]
-    //float functionDuration = 1f, transitionDuration = 1f;
+    [SerializeField, Min(0f)]
+    float functionDuration = 1f, transitionDuration = 1f;
 
-    //bool transitioning;
-    //FunctionName transitionFunctionName;
+    bool transitioning;
+    FunctionName transitionFunctionName;
 
-    //float duration = 0f;
+    float duration = 0f;
 
     ComputeBuffer positionsBuffer;
 
@@ -40,17 +40,26 @@ public class GPUGraph : MonoBehaviour
         positionsId = Shader.PropertyToID("_Positions"),
         resolutionId = Shader.PropertyToID("_Resolution"),
         timeId = Shader.PropertyToID("_Time"),
-        stepId = Shader.PropertyToID("_Step");
+        stepId = Shader.PropertyToID("_Step"),
+        transitionDurationId = Shader.PropertyToID("_TransitionProgress");
 
     void UpdateFunctionOnGPU()
     {
-        int kernelIndex = (int)functionName;
+        int kernelIndex = 
+            (int)functionName + (int)(transitioning ? transitionFunctionName : functionName) * FunctionCount;
         float step = 2f / resolution;
 
         computeShader.SetInt(resolutionId, resolution);
         computeShader.SetFloat(timeId, Time.time);
         computeShader.SetFloat(stepId, step);
         computeShader.SetBuffer(kernelIndex, positionsId, positionsBuffer);
+
+        if (transitioning)
+        {
+            computeShader.SetFloat(
+                transitionDurationId, 
+                Mathf.SmoothStep(0f, 1f, duration / transitionDuration));
+        }
 
         int groups = Mathf.CeilToInt(resolution / 8f);
         computeShader.Dispatch(kernelIndex, groups, groups, 1);
@@ -80,6 +89,23 @@ public class GPUGraph : MonoBehaviour
 
     void Update()
     {
+        duration += Time.deltaTime;
+        if (transitioning)
+        {
+            if (duration >= transitionDuration)
+            {
+                duration -= transitionDuration;
+                transitioning = false;
+            }
+        }
+        else if (duration >= functionDuration)
+        {
+            duration -= functionDuration;
+
+            transitioning = true;
+            transitionFunctionName = functionName;
+            PickNextFunction();
+        }
         UpdateFunctionOnGPU();
     }
 

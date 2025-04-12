@@ -1,7 +1,31 @@
 #pragma kernel WaveKernel
-#pragma kernel MutliWaveKernel
+#pragma kernel WaveToMultiWaveKernel
+#pragma kernel WaveToRippleKernel
+#pragma kernel WaveToSphereKernel
+#pragma kernel WaveToRotatingStarTorusKernel
+
+#pragma kernel MultiWaveToWaveKernel
+#pragma kernel MultiWaveKernel
+#pragma kernel MultiWaveToRippleKernel
+#pragma kernel MultiWaveToSphereKernel
+#pragma kernel MultiWaveToRotatingStarTorusKernel
+
+#pragma kernel RippleToWaveKernel
+#pragma kernel RippleToMultiWaveKernel
 #pragma kernel RippleKernel
+#pragma kernel RippleToSphereKernel
+#pragma kernel RippleToRotatingStarTorusKernel
+
+#pragma kernel SphereToWaveKernel
+#pragma kernel SphereToMultiWaveKernel
+#pragma kernel SphereToRippleKernel
 #pragma kernel SphereKernel
+#pragma kernel SphereToRotatingStarTorusKernel
+
+#pragma kernel RotatingStarTorusToWaveKernel
+#pragma kernel RotatingStarTorusToMultiWaveKernel
+#pragma kernel RotatingStarTorusToRippleKernel
+#pragma kernel RotatingStarTorusToSphereKernel
 #pragma kernel RotatingStarTorusKernel
 
 #define PI 3.14159265358979323846
@@ -9,7 +33,7 @@
 RWStructuredBuffer<float3> _Positions;
 
 uint _Resolution;
-float _Step, _Time;
+float _Step, _Time, _TransitionProgress;
 
 float2 GetUV (uint3 id)
 {
@@ -23,6 +47,7 @@ void SetPosition(uint3 id, float3 position)
         _Positions[id.x + id.y * _Resolution] = position;
     }
 }
+
 float3 Wave(float u, float v, float t)
 {
     float3 position;
@@ -33,7 +58,7 @@ float3 Wave(float u, float v, float t)
 }
 
 
-float3 MutliWave(float u, float v, float t)
+float3 MultiWave(float u, float v, float t)
 {
     float3 position;
     position.x = u;
@@ -96,8 +121,47 @@ float3 RotatingStarTorus(float u, float v, float t)
         SetPosition(id, Function(uv.x, uv.y, _Time)); \
     }
 
+#define KERNEL_MORPH_FUNCTION(FunctionA, FunctionB) \
+    [numthreads(8, 8, 1)] \
+    void FunctionA##To##FunctionB##Kernel(uint3 id: SV_DispatchThreadID) \
+    { \
+        float2 uv = GetUV(id); \
+        float3 position = lerp( \
+            FunctionA(uv.x, uv.y, _Time), FunctionB(uv.x, uv.y, _Time), \
+            _TransitionProgress \
+        ); \
+        SetPosition(id, position); \
+    }
+
 KERNEL_FUNCTION(Wave)
-KERNEL_FUNCTION(MutliWave)
+KERNEL_FUNCTION(MultiWave)
 KERNEL_FUNCTION(Ripple)
 KERNEL_FUNCTION(Sphere)
 KERNEL_FUNCTION(RotatingStarTorus)
+
+KERNEL_MORPH_FUNCTION(Wave, MultiWave);
+KERNEL_MORPH_FUNCTION(Wave, Ripple);
+KERNEL_MORPH_FUNCTION(Wave, Sphere);
+KERNEL_MORPH_FUNCTION(Wave, RotatingStarTorus);
+
+
+KERNEL_MORPH_FUNCTION(MultiWave, Wave);
+KERNEL_MORPH_FUNCTION(MultiWave, Ripple);
+KERNEL_MORPH_FUNCTION(MultiWave, Sphere);
+KERNEL_MORPH_FUNCTION(MultiWave, RotatingStarTorus);
+
+KERNEL_MORPH_FUNCTION(Ripple, Wave);
+KERNEL_MORPH_FUNCTION(Ripple, MultiWave);
+KERNEL_MORPH_FUNCTION(Ripple, Sphere);
+KERNEL_MORPH_FUNCTION(Ripple, RotatingStarTorus);
+
+KERNEL_MORPH_FUNCTION(Sphere, Wave);
+KERNEL_MORPH_FUNCTION(Sphere, MultiWave);
+KERNEL_MORPH_FUNCTION(Sphere, Ripple);
+KERNEL_MORPH_FUNCTION(Sphere, RotatingStarTorus);
+
+KERNEL_MORPH_FUNCTION(RotatingStarTorus, Wave);
+KERNEL_MORPH_FUNCTION(RotatingStarTorus, MultiWave);
+KERNEL_MORPH_FUNCTION(RotatingStarTorus, Ripple);
+KERNEL_MORPH_FUNCTION(RotatingStarTorus, Sphere);
+

@@ -22,6 +22,8 @@ public static class FunctionLibrary {
         //Torus,
     };
 
+    public static int FunctionCount => functions.Length;
+
     public static Function GetFunction(FunctionName name) {
         return functions[(int)name];
     }
