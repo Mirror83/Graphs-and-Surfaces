@@ -62,7 +62,7 @@ public static class FunctionLibrary {
         float y = Sin(PI * (u + 0.5f * t));
         y += Sin(2f * PI * (v + t)) * 0.5f;
         y += Sin(PI * (u + v + 0.25f + t));
-        y *= 2f / 3f;
+        y *= 1f / 2.5f;
         position.y = y;
 
         return position;
