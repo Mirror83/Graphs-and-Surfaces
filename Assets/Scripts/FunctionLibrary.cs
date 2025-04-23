@@ -5,6 +5,7 @@ public static class FunctionLibrary {
     public delegate Vector3 Function(float u, float v, float t);
 
     public enum FunctionName { 
+        Plane,
         Wave,
         MutliWave,
         Ripple,
@@ -14,6 +15,7 @@ public static class FunctionLibrary {
     }
 
     static readonly Function[] functions = {
+        Plane,
         Wave,
         MutliWave,
         Ripple,
@@ -44,6 +46,15 @@ public static class FunctionLibrary {
     )
     {
         return Vector3.LerpUnclamped(from(u, v, t), to(u, v, t), SmoothStep(0f, 1f, progress));
+    }
+
+    public static Vector3 Plane(float u, float v, float t)
+    {
+        return new Vector3 {
+            x = u,
+            y = 0,
+            z = v,
+        };
     }
 
     public static Vector3 Wave(float u, float v, float t) {
