@@ -466,7 +466,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &752317507
 Transform:
   m_ObjectHideFlags: 0
@@ -495,11 +495,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointPrefab: {fileID: 4921727253597810080, guid: fb60ca9285b1dd44d96d265f18611961, type: 3}
-  resolution: 200
+  resolution: 40
   functionName: 0
   transitionMode: 0
+  functionDuration: 2
+  transitionDuration: 1
+--- !u!1 &939718993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 939718995}
+  - component: {fileID: 939718994}
+  m_Layer: 0
+  m_Name: Graph2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &939718994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939718993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edb74fbcf02a72b4eb4a0237450f1920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointPrefab: {fileID: 2337195236566561831, guid: 222c82dfe20883c47a060c224b981f8d, type: 3}
+  resolution: 60
+  functionName: 0
+  transitionMode: 2
   functionDuration: 1
   transitionDuration: 1
+--- !u!4 &939718995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939718993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,7 +800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1239570729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,7 +808,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239570728}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6cb9765116397448b77e3530c24c58b, type: 3}
   m_Name: 
@@ -766,6 +816,8 @@ MonoBehaviour:
   resolution: 400
   functionName: 0
   transitionMode: 0
+  functionDuration: 1
+  transitionDuration: 1
   computeShader: {fileID: 7200000, guid: 646093a1dbe3a46499e0194b12490f17, type: 3}
   material: {fileID: 2100000, guid: 86ca8887226129d4e9ff46576f15d0a0, type: 2}
   mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -893,6 +945,7 @@ SceneRoots:
   - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 752317507}
+  - {fileID: 939718995}
   - {fileID: 1133182407}
   - {fileID: 1600844345}
   - {fileID: 1239570730}
