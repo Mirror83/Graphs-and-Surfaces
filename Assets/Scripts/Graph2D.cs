@@ -28,9 +28,9 @@ public class Graph2D : MonoBehaviour
 
     Transform[] points;
 
-    float F(float x, float time) {
+    Vector3 F(float u, float time) {
         var function = GetFunction(functionName);
-        return function(x, time);
+        return function(u, time);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -111,11 +111,13 @@ public class Graph2D : MonoBehaviour
     void UpdateCurrentFunction()
     {
         float time = Time.time;
+        var step = 2f / resolution;
 
+        Vector3 position;
         for (int i = 0; i < points.Length; i++)
         {
-            var position = points[i].localPosition;
-            position.y = F(position.x, time);
+            var u = (i + 0.5f) * step - 1f;
+            position = F(u, time);
             points[i].localPosition = position;
         }
     }

@@ -2,13 +2,14 @@ using UnityEngine;
 using static UnityEngine.Mathf;
 
 public static class FunctionLibrary2D {
-    public delegate float Function(float x, float t);
+    public delegate Vector3 Function(float u, float t);
 
     public enum FunctionName { 
         HorizontalLine,
         Line,
         Parabola,
         Cubic,
+        Circle,
         Wave,
         MutliWave,
         Ripple,
@@ -19,6 +20,7 @@ public static class FunctionLibrary2D {
         Line,
         Parabola,
         Cubic,
+        Circle,
         Wave,
         MutliWave,
         Ripple,
@@ -41,43 +43,74 @@ public static class FunctionLibrary2D {
         return choice == name ? 0 : choice;
     }
 
-    public static float HorizontalLine(float x, float t)
+    public static Vector3 HorizontalLine(float u, float t)
     {
-        return 0;
+        return new Vector3
+        {
+            x = u,
+            y = 0,
+            z = 0
+        };
     }
-    public static float Line(float x, float t)
+    public static Vector3 Line(float u, float t)
     {
-        return x;
+        float x, y;
+        x = y = u;
+        return new Vector3(x, y);
     }
 
-    public static float Parabola(float x, float t)
+    public static Vector3 Parabola(float u, float t)
     {
-        return x * x;
+        var x = u;
+        var y = x * x;
+        return new Vector3(x, y);
     }
 
-    public static float Cubic(float x, float t)
+    public static Vector3 Cubic(float u, float t)
     {
-        return x * x * x;
+        var x = u;
+        var y = x * x * x;
+        return new Vector3(x, y);
     }
 
-    public static float Wave(float x, float t) {
-         return Sin(PI * (x + t));
+    public static Vector3 Circle(float u, float t)
+    {
+        var x = Cos(PI * (u));
+        var y = Sin(PI * (u));
+        return new Vector3(x, y);
     }
 
-    public static float MutliWave(float x, float t) { 
-        float y = Sin(PI * (x + 0.5f * t));
+    public static Vector3 Wave(float u, float t) {
+        var x = u;
+        var y = Sin(PI * (x + t));
+       
+        return new Vector3(x, y); 
+    }
+
+    public static Vector3 MutliWave(float u, float t) {
+        float y = Sin(PI * (u + 0.5f * t));
         y += Sin(2f * PI * (y + t)) * 0.5f;
         y *= 2f / 3f;
 
-        return y;
+        return new Vector3
+        {
+            x = u,
+            y = y,
+            z = 0
+        };
     }
 
-    public static float Ripple(float x, float t) { 
-        float d = Abs(x);
+    public static Vector3 Ripple(float u, float t) { 
+        float d = Abs(u);
         float y = Sin(PI * (4f * d - t));
         y /= 1f + 10f * d;
 
-        return y;
+        return new Vector3
+        {
+            x = u,
+            y = y,
+            z = 0
+        };
     }
 
 }
