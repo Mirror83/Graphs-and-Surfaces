@@ -450,7 +450,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &752317507
 Transform:
   m_ObjectHideFlags: 0
@@ -473,14 +473,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752317506}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0be55a757c69fba4a8178c5037d0d43f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointPrefab: {fileID: 0}
+  pointPrefab: {fileID: 4921727253597810080, guid: fb60ca9285b1dd44d96d265f18611961, type: 3}
   resolution: 10
-  functionName: 1
+  functionName: 0
   transitionMode: 0
   functionDuration: 1
   transitionDuration: 1
@@ -734,7 +734,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1239570729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,14 +742,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1239570728}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6cb9765116397448b77e3530c24c58b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   resolution: 100
   functionName: 1
-  transitionMode: 0
+  transitionMode: 1
   functionDuration: 1
   transitionDuration: 1
   computeShader: {fileID: 7200000, guid: 646093a1dbe3a46499e0194b12490f17, type: 3}
