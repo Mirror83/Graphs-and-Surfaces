@@ -1,27 +1,39 @@
+#pragma kernel PlaneKernel
+#pragma kernel PlaneToWaveKernel
+#pragma kernel PlaneToMultiWaveKernel
+#pragma kernel PlaneToRippleKernel
+#pragma kernel PlaneToSphereKernel
+#pragma kernel PlaneToRotatingStarTorusKernel
+
+#pragma kernel WaveToPlaneKernel
 #pragma kernel WaveKernel
 #pragma kernel WaveToMultiWaveKernel
 #pragma kernel WaveToRippleKernel
 #pragma kernel WaveToSphereKernel
 #pragma kernel WaveToRotatingStarTorusKernel
 
+#pragma kernel MultiWaveToPlaneKernel
 #pragma kernel MultiWaveToWaveKernel
 #pragma kernel MultiWaveKernel
 #pragma kernel MultiWaveToRippleKernel
 #pragma kernel MultiWaveToSphereKernel
 #pragma kernel MultiWaveToRotatingStarTorusKernel
 
+#pragma kernel RippleToPlaneKernel
 #pragma kernel RippleToWaveKernel
 #pragma kernel RippleToMultiWaveKernel
 #pragma kernel RippleKernel
 #pragma kernel RippleToSphereKernel
 #pragma kernel RippleToRotatingStarTorusKernel
 
+#pragma kernel SphereToPlaneKernel
 #pragma kernel SphereToWaveKernel
 #pragma kernel SphereToMultiWaveKernel
 #pragma kernel SphereToRippleKernel
 #pragma kernel SphereKernel
 #pragma kernel SphereToRotatingStarTorusKernel
 
+#pragma kernel RotatingStarTorusToPlaneKernel
 #pragma kernel RotatingStarTorusToWaveKernel
 #pragma kernel RotatingStarTorusToMultiWaveKernel
 #pragma kernel RotatingStarTorusToRippleKernel
@@ -46,6 +58,15 @@ void SetPosition(uint3 id, float3 position)
     {
         _Positions[id.x + id.y * _Resolution] = position;
     }
+}
+
+float3 Plane(float u, float v, float t)
+{
+    float3 position;
+    position.x = u;
+    position.z = v;
+    position.y = 0;
+    return position;
 }
 
 float3 Wave(float u, float v, float t)
@@ -133,33 +154,44 @@ float3 RotatingStarTorus(float u, float v, float t)
         SetPosition(id, position); \
     }
 
+KERNEL_FUNCTION(Plane)
 KERNEL_FUNCTION(Wave)
 KERNEL_FUNCTION(MultiWave)
 KERNEL_FUNCTION(Ripple)
 KERNEL_FUNCTION(Sphere)
 KERNEL_FUNCTION(RotatingStarTorus)
 
+KERNEL_MORPH_FUNCTION(Plane, Wave);
+KERNEL_MORPH_FUNCTION(Plane, MultiWave);
+KERNEL_MORPH_FUNCTION(Plane, Ripple);
+KERNEL_MORPH_FUNCTION(Plane, Sphere);
+KERNEL_MORPH_FUNCTION(Plane, RotatingStarTorus);
+
+KERNEL_MORPH_FUNCTION(Wave, Plane);
 KERNEL_MORPH_FUNCTION(Wave, MultiWave);
 KERNEL_MORPH_FUNCTION(Wave, Ripple);
 KERNEL_MORPH_FUNCTION(Wave, Sphere);
 KERNEL_MORPH_FUNCTION(Wave, RotatingStarTorus);
 
-
+KERNEL_MORPH_FUNCTION(MultiWave, Plane);
 KERNEL_MORPH_FUNCTION(MultiWave, Wave);
 KERNEL_MORPH_FUNCTION(MultiWave, Ripple);
 KERNEL_MORPH_FUNCTION(MultiWave, Sphere);
 KERNEL_MORPH_FUNCTION(MultiWave, RotatingStarTorus);
 
+KERNEL_MORPH_FUNCTION(Ripple, Plane);
 KERNEL_MORPH_FUNCTION(Ripple, Wave);
 KERNEL_MORPH_FUNCTION(Ripple, MultiWave);
 KERNEL_MORPH_FUNCTION(Ripple, Sphere);
 KERNEL_MORPH_FUNCTION(Ripple, RotatingStarTorus);
 
+KERNEL_MORPH_FUNCTION(Sphere, Plane);
 KERNEL_MORPH_FUNCTION(Sphere, Wave);
 KERNEL_MORPH_FUNCTION(Sphere, MultiWave);
 KERNEL_MORPH_FUNCTION(Sphere, Ripple);
 KERNEL_MORPH_FUNCTION(Sphere, RotatingStarTorus);
 
+KERNEL_MORPH_FUNCTION(RotatingStarTorus, Plane);
 KERNEL_MORPH_FUNCTION(RotatingStarTorus, Wave);
 KERNEL_MORPH_FUNCTION(RotatingStarTorus, MultiWave);
 KERNEL_MORPH_FUNCTION(RotatingStarTorus, Ripple);
