@@ -1,4 +1,3 @@
-
 Shader "Graph/SurfaceShader_PointGPU"
 {
     Properties {

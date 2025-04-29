@@ -109,12 +109,6 @@ public class GPUGraph : MonoBehaviour
         UpdateFunctionOnGPU();
     }
 
-    Vector3 F(float u, float v, float time)
-    {
-        var function = GetFunction(functionName);
-        return function(u, v, time);
-    }
-
     void PickNextFunction()
     {
         functionName = transitionMode == TransitionMode.Cycle ?
