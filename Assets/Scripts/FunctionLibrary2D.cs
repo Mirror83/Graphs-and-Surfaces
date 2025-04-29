@@ -113,4 +113,9 @@ public static class FunctionLibrary2D {
         };
     }
 
+    public static Vector3 Morph(float u, float t, Function from, Function to, float progress)
+    {
+        return Vector3.LerpUnclamped(from(u, t), to(u, t), SmoothStep(0f, 1f, progress));
+    }
+
 }
